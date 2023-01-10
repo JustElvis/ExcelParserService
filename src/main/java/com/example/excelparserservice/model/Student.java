@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Row;
 @Data
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String lastName;
@@ -22,10 +21,11 @@ public class Student {
     private String email;
 
     public void assignStudent(Row row) {
-        name = row.getCell(0).toString();
-        lastName = row.getCell(1).toString();
-        age = (int) row.getCell(2).getNumericCellValue();
-        phoneNumber = row.getCell(3).toString();
-        email = row.getCell(4).toString();
+        id = (long) row.getCell(0).getNumericCellValue();
+        name = row.getCell(1).getStringCellValue();
+        lastName = row.getCell(2).getStringCellValue();
+        age = (int) row.getCell(3).getNumericCellValue();
+        phoneNumber = row.getCell(4).getStringCellValue();
+        email = row.getCell(5).getStringCellValue();
     }
 }
