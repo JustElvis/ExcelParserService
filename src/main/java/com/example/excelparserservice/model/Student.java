@@ -20,11 +20,11 @@ public class Student {
     private String email;
 
     public void assignStudent(Row row) {
-        DataFormatter formatter = new DataFormatter();
         id = (long) row.getCell(0).getNumericCellValue();
         name = row.getCell(1).getStringCellValue();
         lastName = row.getCell(2).getStringCellValue();
         age = (int) row.getCell(3).getNumericCellValue();
+        DataFormatter formatter = new DataFormatter();
         phoneNumber = formatter.formatCellValue(row.getCell(4));
         email = row.getCell(5).getStringCellValue();
     }

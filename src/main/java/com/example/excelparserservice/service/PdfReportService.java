@@ -1,6 +1,5 @@
 package com.example.excelparserservice.service;
 
-
 import com.example.excelparserservice.model.Student;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -30,15 +29,15 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class PdfReportService {
+    private static final String TITLE = "Students info";
     private final StudentService studentService;
 
     public ResponseEntity<Resource> generatePdfReport() throws IOException, DocumentException {
-        List<Student> students = studentService.findAll();
         Document document = new Document(PageSize.A4, 25, 25, 25, 25);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
         document.open();
-        Paragraph title = new Paragraph("Students info",
+        Paragraph title = new Paragraph(TITLE,
                 FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD,
                         new BaseColor(0, 255, 255)));
         title.setAlignment(Element.ALIGN_CENTER);
@@ -58,6 +57,7 @@ public class PdfReportService {
         table.addCell(c5);
         PdfPCell c6 = new PdfPCell(new Phrase("Email"));
         table.addCell(c6);
+        List<Student> students = studentService.findAll();
         for (Student student : students) {
             table.addCell(String.valueOf(student.getId()));
             table.addCell(student.getName());
@@ -68,11 +68,11 @@ public class PdfReportService {
         }
         document.add(table);
         document.close();
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=StudentPdfReport.pdf");
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         return new ResponseEntity<>(new InputStreamResource(inputStream), headers, HttpStatus.OK);
     }
 }

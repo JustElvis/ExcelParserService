@@ -11,7 +11,7 @@ public class TxtWriterServiceImpl implements TxtWriterService {
     @Override
     public void writeToFile(String filePath, String data) {
         File file = new File(filePath);
-        try(FileWriter fileWriter = new FileWriter(file, true)) {
+        try (FileWriter fileWriter = new FileWriter(file, true)) {
             fileWriter.write(data);
         } catch (IOException e) {
             throw new RuntimeException("Can't write to file -> " + filePath, e);

@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 public class ExcelParser {
     public List<Student> parse(String fileName) {
         List<Student> students = new ArrayList<>();
-        try(InputStream inputStream = new FileInputStream(fileName);
-            XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
+        try (InputStream inputStream = new FileInputStream(fileName);
+                XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0);
             for (Row row : sheet) {
                 Student student = new Student();
